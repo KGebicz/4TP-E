@@ -1,0 +1,134 @@
+using System;
+
+namespace OOP_Demo
+{
+    // ==============================
+    // 1. Klasa bazowa (Base Class)
+    // ==============================
+    public class Animal
+    {
+        // Prywatne pole (enkapsulacja)
+        private int age;
+
+        // Property (właściwość)
+        // Zapewnia kontrolowany dostęp do pola
+        public int Age
+        {
+            get { return age; } // odczyt
+            set
+            {
+                // zabezpieczenie przed błędnymi danymi
+                if (value >= 0)
+                {
+                    age = value;
+                }
+                else
+                {
+                    Console.WriteLine("Wiek nie może być ujemny!");
+                }
+            }
+        }
+
+        // Auto-property (kompilator tworzy ukryte pole)
+        public string Name { get; set; }
+
+        // Konstruktor
+        public Animal(string name, int age)
+        {
+            Name = name;
+            Age = age; // używamy property (czyli walidacja działa)
+        }
+
+        // Metoda virtual – może być nadpisana
+        public virtual void MakeSound()
+        {
+            Console.WriteLine("Zwierzę wydaje dźwięk");
+        }
+
+        public void ShowInfo()
+        {
+            Console.WriteLine($"Imię: {Name}, Wiek: {Age}");
+        }
+    }
+
+    // ==============================
+    // 2. Klasa potomna (Dziedziczenie)
+    // ==============================
+    public class Dog : Animal
+    {
+        // Konstruktor klasy potomnej
+        // : base(...) wywołuje konstruktor klasy bazowej
+        public Dog(string name, int age) : base(name, age)
+        {
+        }
+
+        // Nadpisanie metody (polimorfizm)
+        public override void MakeSound()
+        {
+            Console.WriteLine("Hau hau!");
+        }
+    }
+
+    // ==============================
+    // 3. Struct (typ wartościowy)
+    // ==============================
+    public struct Point
+    {
+        public int X;
+        public int Y;
+
+        public void Show()
+        {
+            Console.WriteLine($"Punkt: ({X}, {Y})");
+        }
+    }
+
+    // ==============================
+    // 4. Program główny
+    // ==============================
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("=== TWORZENIE OBIEKTU ===");
+
+            // Tworzymy obiekt klasy Dog
+            Dog dog = new Dog("Reksio", 5);
+
+            dog.ShowInfo();
+            dog.MakeSound();
+
+            Console.WriteLine("\n=== ENKAPSULACJA ===");
+
+            dog.Age = -10; // Próba ustawienia złej wartości
+            dog.Age = 3;   // Poprawna wartość
+            dog.ShowInfo();
+
+            Console.WriteLine("\n=== POLIMORFIZM ===");
+
+            // Polimorfizm – referencja typu bazowego
+            Animal animal = new Dog("Burek", 2);
+
+            animal.MakeSound(); 
+            // Wywoła wersję z klasy Dog
+            // mimo że typ zmiennej to Animal
+
+            Console.WriteLine("\n=== STRUCT VS CLASS ===");
+
+            // Struct – typ wartościowy
+            Point p1 = new Point();
+            p1.X = 10;
+            p1.Y = 20;
+
+            Point p2 = p1; // kopiowanie wartości
+
+            p2.X = 99;
+
+            Console.WriteLine("p1:");
+            p1.Show(); // nadal 10, 20
+
+            Console.WriteLine("p2:");
+            p2.Show(); // 99, 20
+        }
+    }
+}
