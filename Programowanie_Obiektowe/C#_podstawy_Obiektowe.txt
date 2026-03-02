@@ -1,0 +1,228 @@
+using System;
+
+// ========================================
+// CZĘŚĆ 1 – PODSTAWY KLASY
+// ========================================
+
+class Vehicle
+{
+    // Publiczne pola
+    public string Brand;
+    public int Year;
+
+    // Metoda klasy
+    public void ShowInfo()
+    {
+        Console.WriteLine($"Marka: {Brand}, Rok produkcji: {Year}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Tworzenie obiektu
+        Vehicle v = new Vehicle();
+
+        // Ustawianie wartości pól
+        v.Brand = "Toyota";
+        v.Year = 2020;
+
+        // Wywołanie metody
+        v.ShowInfo();
+    }
+}
+using System;
+
+// ========================================
+// CZĘŚĆ 2 – KONSTRUKTOR
+// ========================================
+
+class Vehicle
+{
+    public string Brand;
+    public int Year;
+
+    // Konstruktor – wymusza podanie danych
+    public Vehicle(string brand, int year)
+    {
+        Brand = brand;
+        Year = year;
+    }
+
+    public void ShowInfo()
+    {
+        Console.WriteLine($"Marka: {Brand}, Rok produkcji: {Year}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Teraz nie możemy zrobić new Vehicle() bez parametrów
+        Vehicle v = new Vehicle("BMW", 2022);
+
+        v.ShowInfo();
+    }
+}
+using System;
+
+// ========================================
+// CZĘŚĆ 3 – DZIEDZICZENIE
+// ========================================
+
+class Vehicle
+{
+    public string Brand;
+    public int Year;
+
+    public Vehicle(string brand, int year)
+    {
+        Brand = brand;
+        Year = year;
+    }
+
+    public void ShowInfo()
+    {
+        Console.WriteLine($"Marka: {Brand}, Rok produkcji: {Year}");
+    }
+}
+
+// Car dziedziczy po Vehicle
+class Car : Vehicle
+{
+    public int NumberOfDoors;
+
+    // base(...) wywołuje konstruktor klasy bazowej
+    public Car(string brand, int year, int numberOfDoors)
+        : base(brand, year)
+    {
+        NumberOfDoors = numberOfDoors;
+    }
+
+    public void ShowCarInfo()
+    {
+        ShowInfo(); // metoda z klasy bazowej
+        Console.WriteLine($"Liczba drzwi: {NumberOfDoors}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Car car = new Car("Audi", 2021, 5);
+
+        car.ShowCarInfo();
+    }
+}
+
+using System;
+
+// ========================================
+// CZĘŚĆ 4 – DRUGA KLASA POCHODNA
+// ========================================
+
+class Vehicle
+{
+    public string Brand;
+    public int Year;
+
+    public Vehicle(string brand, int year)
+    {
+        Brand = brand;
+        Year = year;
+    }
+
+    public void ShowInfo()
+    {
+        Console.WriteLine($"Marka: {Brand}, Rok produkcji: {Year}");
+    }
+}
+
+class Motorcycle : Vehicle
+{
+    public bool HasSidecar;
+
+    public Motorcycle(string brand, int year, bool hasSidecar)
+        : base(brand, year)
+    {
+        HasSidecar = hasSidecar;
+    }
+
+    public void ShowMotorcycleInfo()
+    {
+        ShowInfo();
+        Console.WriteLine($"Ma boczny wózek: {HasSidecar}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Motorcycle moto = new Motorcycle("Yamaha", 2019, false);
+
+        moto.ShowMotorcycleInfo();
+    }
+}
+
+using System;
+
+// ========================================
+// CZĘŚĆ 5 – GETTER I SETTER
+// ========================================
+
+class Vehicle
+{
+    // Prywatne pola (nie można zmienić bezpośrednio)
+    private string brand;
+    private int year;
+
+    // Property dla Brand
+    public string Brand
+    {
+        get { return brand; }
+        set { brand = value; }
+    }
+
+    // Property dla Year z walidacją
+    public int Year
+    {
+        get { return year; }
+        set
+        {
+            if (value > 1900)   // prosta walidacja
+                year = value;
+            else
+                Console.WriteLine("Niepoprawny rok!");
+        }
+    }
+
+    public Vehicle(string brand, int year)
+    {
+        Brand = brand;   // używamy property
+        Year = year;
+    }
+
+    public void ShowInfo()
+    {
+        Console.WriteLine($"Marka: {Brand}, Rok produkcji: {Year}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Vehicle v = new Vehicle("Mercedes", 2023);
+        v.ShowInfo();
+
+        Console.WriteLine();
+
+        // Próba ustawienia błędnej wartości
+        v.Year = 1500;   // nie przejdzie walidacji
+        v.ShowInfo();
+    }
+}
