@@ -1,0 +1,118 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    // 1. Definicja własnego delegata
+    delegate int Operacja(int a, int b);
+
+    static void Main()
+    {
+        Console.WriteLine("=== Delegaty podstawy ===");
+
+        // 2. Przypisanie metod do delegata
+        Operacja op1 = Dodaj;
+        Operacja op2 = Odejmij;
+        // metody zdefiniowane na końcu
+        // static int Dodaj(int a, int b) => a + b;
+        // static int Odejmij(int a, int b) => a - b;
+
+        Console.WriteLine(op1(5, 3)); // 8
+        Console.WriteLine(op2(5, 3)); // 2
+
+
+        Console.WriteLine("\n=== Delegaty jako parametr ===");
+
+        // 3. Przekazanie delegata do metody
+        WykonajOperacje(10, 5, Dodaj);
+        WykonajOperacje(10, 5, Odejmij);
+
+
+        Console.WriteLine("\n=== Delegaty wbudowane ===");
+
+        // 4. Action (void)
+        Action<string> powitanie = name => Console.WriteLine($"Cześć {name}");
+        powitanie("Jan");
+
+        // 5. Func (zwraca wartość)
+        Func<int, int, int> mnozenie = (a, b) => a * b;
+        Console.WriteLine(mnozenie(4, 5));
+
+        // 6. Predicate (zwraca bool)
+        Predicate<int> czyParzysta = x => x % 2 == 0;
+        Console.WriteLine(czyParzysta(4)); // true
+
+
+        Console.WriteLine("\n=== Multicast delegate ===");
+
+        // 7. Multicast (kilka metod)
+        Action multi = Metoda1;
+        multi += Metoda2;
+
+        multi(); // wykona obie metody
+
+
+        Console.WriteLine("\n=== Metody anonimowe ===");
+
+        // 8. Metoda anonimowa
+        Operacja anonimowa = delegate (int a, int b)
+        {
+            return a * b;
+        };
+        Console.WriteLine(anonimowa(3, 4));
+
+
+        Console.WriteLine("\n=== Lambda ===");
+
+        // 9. Lambda
+        Operacja lambda = (a, b) => a + b;
+        Console.WriteLine(lambda(7, 2));
+
+
+        Console.WriteLine("\n=== Zwracanie delegata ===");
+
+        // 10. Metoda zwracająca delegata
+        var operacja = PobierzOperacje("+");
+        Console.WriteLine(operacja(10, 3));
+
+
+        Console.WriteLine("\n=== Bezpieczne wywołanie ===");
+
+        Action test = null;
+        test?.Invoke(); // nie wywali błędu
+
+
+        Console.WriteLine("\n=== Predicate + lista ===");
+
+        // 11. Predicate w praktyce (filtrowanie)
+        List<int> liczby = new List<int> { 1, 2, 3, 4, 5, 6 };
+        var parzyste = liczby.FindAll(x => x % 2 == 0);
+
+        foreach (var x in parzyste)
+            Console.WriteLine(x);
+    }
+
+
+    // ==== METODY ====
+
+    static int Dodaj(int a, int b) => a + b;
+    static int Odejmij(int a, int b) => a - b;
+
+    static void WykonajOperacje(int a, int b, Operacja op)
+    {
+        Console.WriteLine(op(a, b));
+    }
+
+    static void Metoda1() => Console.WriteLine("Metoda 1");
+    static void Metoda2() => Console.WriteLine("Metoda 2");
+
+    static void DodatkowaAkcja() => Console.WriteLine("Druga reakcja");
+
+    static Operacja PobierzOperacje(string znak)
+    {
+        if (znak == "+")
+            return Dodaj;
+        else
+            return Odejmij;
+    }
+}
