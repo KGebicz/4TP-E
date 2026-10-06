@@ -1,5 +1,3 @@
-# 4TP-E
-
 from pathlib import Path
 
 PLIK = Path("zakupy.txt")
