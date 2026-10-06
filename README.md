@@ -1,3 +1,4 @@
+```
 from pathlib import Path
 
 PLIK = Path("zakupy.txt")
@@ -19,3 +20,4 @@ print("\nTwoja lista zakupów:")
 with open(PLIK, "r", encoding="utf-8") as f:
     for numer, produkt in enumerate(f, start=1):
         print(f"{numer}. {produkt.strip()}")
+```
