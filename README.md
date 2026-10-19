@@ -1,4 +1,12 @@
 ```
+spring.datasource.url=jdbc:h2:mem:biblioteka
+spring.h2.console.enabled=true
+spring.jpa.show-sql=true
+
+
+```
+
+```
 from pathlib import Path
 
 PLIK = Path("zakupy.txt")
