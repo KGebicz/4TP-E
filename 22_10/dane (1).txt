@@ -1,0 +1,5 @@
+Jan Kowalski - programowanie w Pythonie
+Anna Nowak - obsługa plików tekstowych
+Piotr Wiśniewski - nauka funkcji i pętli
+Maria Zielińska - ćwiczenia z programowania
+Python pozwala odczytywać, zapisywać i wyszukiwać dane.
